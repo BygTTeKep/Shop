@@ -18,8 +18,13 @@ func (h *Handler) InitRoutes() *mux.Router {
 	router.Use(h.commonMiddleware)
 	router.HandleFunc("/sign-up", h.signUp()).Methods("POST")
 	router.HandleFunc("/sign-in", h.signIn()).Methods("POST")
-	router.HandleFunc("/deleteUser", h.deleteUser()).Methods("DELETE")
-	router.HandleFunc("/createProduct", h.createProduct()).Methods("POST") //название
-	router.HandleFunc("/deleteProduct", h.deleteProduct()).Methods("DELETE")
+	p := router.PathPrefix("/Product").Subrouter()
+	p.HandleFunc("/{id:[0-9]+}/", h.deleteProduct()).Methods("DELETE")
+	p.HandleFunc("/", h.createProduct()).Methods("POST")
+	u := router.PathPrefix("/user").Subrouter()
+	u.HandleFunc("/{id:[0-9]+}/", h.deleteUser()).Methods("DELETE")
+	//router.HandleFunc("/deleteUser/{id}", h.deleteUser()).Methods("DELETE")
+	// router.HandleFunc("/createProduct", h.createProduct()).Methods("POST")
+	// router.HandleFunc("/deleteProduct/{id}", h.deleteProduct()).Methods("DELETE")
 	return router
 }

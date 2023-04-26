@@ -8,7 +8,7 @@ import (
 type Authorization interface {
 	CreateUser(user model.User) (int, error)
 	GenerateToken(username, password string) (string, error)
-	DeleteUser(username, password string) error
+	DeleteUser(id int) error
 }
 
 type Products interface {
@@ -16,10 +16,11 @@ type Products interface {
 	DeleteProduct(id int) error
 	GetProductId(product model.Products) (int, error)
 	AddProductPhoto(product_photo model.ProductPhoto) error
+	GetProductById(id int) error
 }
 
 type Cart interface {
-	//CreateCart(username, password string) (int, error) //перенести в CreateUser
+	CreateCart(idU int) (int, error) //перенести в CreateUser
 	GetCart(id int) (int, error)
 }
 

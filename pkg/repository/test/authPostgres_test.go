@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUserRepositoryCreate(t *testing.T) {
+func TestRepositoryUserCreate(t *testing.T) {
 	db, teardown := TestingDB(t)
 	defer teardown("users")
 	repo := repository.NewRepository(db)
@@ -20,13 +20,13 @@ func TestUserRepositoryCreate(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestUserRepositoryDelete(t *testing.T) {
+func TestRepositoryUserDelete(t *testing.T) {
 	db, teardown := TestingDB(t)
 	defer teardown("users")
 	repo := repository.NewRepository(db)
 	u := model.TestUser(t)
-	_, err := repo.CreateUser(*u)
+	id, err := repo.CreateUser(*u)
 	assert.NoError(t, err)
-	err = repo.DeleteUser(u.UserName, u.Password)
+	err = repo.DeleteUser(id)
 	assert.NoError(t, err)
 }

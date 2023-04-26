@@ -44,10 +44,17 @@ func (r *Product) DeleteProduct(id int) error {
 }
 
 func (r *Product) AddProductPhoto(productPhoto model.ProductPhoto) error {
-	query := fmt.Sprintf("INSERT INTO %s(url3, product_id) values($1,$2)", productPhotoTable)
+	query := fmt.Sprintf("INSERT INTO %s(url, product_id) values($1,$2)", productPhotoTable)
 	_, err := r.db.Exec(query, productPhoto.Url, productPhoto.Product_id)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func (r *Product) GetProductById(id int) error {
+	var product model.Products
+	query := fmt.Sprintf("SELECT * FROM %s WHERE id=$1", productsTable)
+	err := r.db.Get(&product, query, id)
+	return err
 }

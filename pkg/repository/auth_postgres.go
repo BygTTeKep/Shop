@@ -23,30 +23,6 @@ func (r *AuthPostgres) CreateUser(user model.User) (int, error) {
 		return -1, err
 	}
 	return id, nil
-	/*
-
-		ПОДУМАТЬ КАК РЕАЛИЗОВАТЬ СОЗДАНИЕ КОРЗИНЫ ВО ВРЕМЯ СОЗДАНИЯ ПОЛЬЗОВАТЕЛЯ
-
-	*/
-	// tx, err := r.db.Begin()
-	// if err != nil {
-	// 	return -1, err
-	// }
-	// var idUser int
-	// query := fmt.Sprintf("INSERT INTO %s(username, first_name, last_name, surname, email, password_hash) values($1, $2, $3, $4, $5, $6) RETURNING id", userTable)
-	// row := tx.QueryRow(query, user.UserName, user.FirstName, user.LastName, user.Surname, user.Email, user.Password)
-	// err = row.Scan(&idUser)
-	// if err != nil {
-	// 	tx.Rollback()
-	// 	return -1, err
-	// }
-	// queryCart := fmt.Sprintf("INSERT INTO %s(customer_id) values $1 RETURNING id", cartTable)
-	// defer tx.QueryRow(queryCart, idUser)
-	// if err := rowCart.Scan(&idCart); err != nil {
-	// 	tx.Rollback()
-	// 	return -1, err
-	// }
-	// return idUser, tx.Commit()
 }
 
 func (r *AuthPostgres) GetUser(username, password string) (model.User, error) {
@@ -56,15 +32,8 @@ func (r *AuthPostgres) GetUser(username, password string) (model.User, error) {
 	return user, err
 }
 
-func (r *AuthPostgres) DeleteUser(username, password string) error {
-	user, err := r.GetUser(username, password)
-	if err != nil {
-		return err
-	}
+func (r *AuthPostgres) DeleteUser(id int) error {
 	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", userTable)
-	_, err = r.db.Exec(query, user.Id)
-	// if err := row.Scan(&user.Id); err != nil {
-	// 	return -1, err
-	// }
+	_, err := r.db.Exec(query, id)
 	return err
 }

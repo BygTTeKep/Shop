@@ -1,3 +1,4 @@
 .idea
 .env
 /configs
+/pkg/repository/test/postgres_test.go

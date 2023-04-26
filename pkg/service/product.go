@@ -27,3 +27,6 @@ func (s *Product) DeleteProduct(id int) error {
 func (s *Product) AddProductPhoto(productPhoto model.ProductPhoto) error {
 	return s.repo.AddProductPhoto(productPhoto)
 }
+func (s *Product) GetProductById(id int) error {
+	return s.repo.GetProductById(id)
+}

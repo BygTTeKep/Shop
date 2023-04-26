@@ -18,10 +18,6 @@ func NewCart(db *sqlx.DB) *CartUser {
 }
 
 func (c *CartUser) CreateCart(idU int) (int, error) {
-	// user, err := c.auth.GetUser(username, password)
-	// if err != nil {
-	// 	return -1, err
-	// }
 	var id int
 	query := fmt.Sprintf("INSERT INTO %s(customer_id) values ($1) RETURNING id", cartTable)
 	row := c.db.QueryRow(query, idU)
@@ -32,10 +28,6 @@ func (c *CartUser) CreateCart(idU int) (int, error) {
 }
 
 func (c *CartUser) GetCart(id int) (int, error) {
-	// user, err := c.auth.GetUser(username, password)
-	// if err != nil {
-	// 	return -1, err
-	// }
 	var idCart int
 	query := fmt.Sprintf("SELECT id FROM %s WHERE customer_id=$1", cartTable)
 	row := c.db.QueryRow(query, id)

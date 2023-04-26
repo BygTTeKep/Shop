@@ -10,6 +10,10 @@ type Server struct {
 	httpServer *http.Server
 }
 
+// func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+// 	s.httpServer.Handler.ServeHTTP(w, r)
+// }
+
 func (s *Server) Run(port string, handler http.Handler) error {
 	s.httpServer = &http.Server{
 		Addr:           ":" + port,
