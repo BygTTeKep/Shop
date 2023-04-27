@@ -48,7 +48,7 @@ func TestHandlerProductCreate(t *testing.T) {
 			rec := httptest.NewRecorder()
 			b := &bytes.Buffer{}
 			json.NewEncoder(b).Encode(tc.payload)
-			req, _ := http.NewRequest(http.MethodPost, "/createProduct", b)
+			req, _ := http.NewRequest(http.MethodPost, "/Product/", b)
 			handlers.InitRoutes().ServeHTTP(rec, req)
 			assert.Equal(t, tc.expectedCode, rec.Code)
 		})

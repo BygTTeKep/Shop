@@ -22,7 +22,7 @@ func TestCreateCart(t *testing.T) {
 
 func TestAddProductToCart(t *testing.T) {
 	db, teardown := TestingDB(t)
-	defer teardown("cart_product", "users", "products")
+	defer teardown("cart_product", "users", "products", "cart")
 	repo := repository.NewRepository(db)
 	u := *model.TestUser(t)
 	p := model.TestProduct(t)

@@ -65,7 +65,7 @@ func (c *CartUser) AddProductToCart(id int, idProduct int) (int, error) {
 }
 func (c *CartUser) GetAllProductFromCart(cartId int) ([]model.Products, error) {
 	var allProduct []model.Products
-	query := fmt.Sprintf("SELECT * FROM %s WHERE cart_id=$1", cartProductTable)
+	query := fmt.Sprintf("SELECT * FROM %s WHERE cart_id=$1", cartProductTable) //Запрос неверный
 	if err := c.db.Get(&allProduct, query, cartId); err != nil {
 		return nil, err
 	}

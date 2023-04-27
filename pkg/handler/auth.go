@@ -59,7 +59,7 @@ func (h *Handler) signIn() http.HandlerFunc {
 	}
 }
 
-func (h *Handler) deleteUser() http.HandlerFunc { //переписать в принятие id а не asfasf
+func (h *Handler) deleteUser() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		// 	newErrorResponse(w, http.StatusBadRequest, err.Error())
