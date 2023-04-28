@@ -69,7 +69,7 @@ func (s *AuthService) ParseToken(accesToken string) (int, error) {
 	return claims.UserId, nil
 }
 
-func generatePasswordHash(password string) string { //плохой способ хэши могут повторяться добавить time
+func generatePasswordHash(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
@@ -77,4 +77,9 @@ func generatePasswordHash(password string) string { //плохой способ 
 
 func (s *AuthService) DeleteUser(id int) error {
 	return s.repo.DeleteUser(id)
+}
+
+func (s *AuthService) UpdateUser(id int, user model.User) error {
+	user.Password = generatePasswordHash(user.Password)
+	return s.repo.UpdateUser(id, user)
 }

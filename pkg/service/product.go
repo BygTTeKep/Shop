@@ -30,3 +30,7 @@ func (s *Product) AddProductPhoto(productPhoto model.ProductPhoto) error {
 func (s *Product) GetProductById(id int) error {
 	return s.repo.GetProductById(id)
 }
+
+func (s *Product) UpdateProductInput(id int, input model.Products) error {
+	return s.repo.UpdateProductInput(id, input)
+}

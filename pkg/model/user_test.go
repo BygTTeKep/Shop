@@ -38,9 +38,6 @@ func TestUser_Validate(t *testing.T) {
 			},
 			isValid: false,
 		},
-		/*
-			добавить тесты с false и true
-		*/
 	}
 
 	for _, tc := range testCases {

@@ -16,17 +16,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-/*
-		План
-	------------
-	дропнуть бд
-	апнуть бд
-	Добавить update
-	Доработать корзину
-	создание seller'a
-	хранение логов
-*/
-
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 	if err := initConfig(); err != nil {

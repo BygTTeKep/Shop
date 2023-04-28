@@ -69,7 +69,7 @@ func TestHandlerDeleteProduct(t *testing.T) {
 	product.Id = id
 	testCase := []struct {
 		name         string
-		payload      interface{} //поменять на тип model.Products или interface
+		payload      interface{}
 		expectedCode int
 	}{
 		{

@@ -30,10 +30,6 @@ func (h *Handler) signUp() http.HandlerFunc {
 			newErrorResponse(w, http.StatusInternalServerError, err.Error())
 			return
 		}
-
-		/*
-			+ метод для добавления в продукта в корзину и подсчет итогового чека
-		*/
 		w.WriteHeader(http.StatusCreated)
 	}
 }

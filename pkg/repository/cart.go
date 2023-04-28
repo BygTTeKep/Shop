@@ -37,11 +37,6 @@ func (c *CartUser) GetCart(id int) (int, error) {
 	return idCart, nil
 }
 
-/*
-	Просмотр продуктов в корзине (работа с
-	увеличении кол-во товаров	(cart_product
-*/
-
 func (c *CartUser) AddProductToCart(id int, idProduct int) (int, error) {
 	cart_id, err := c.GetCart(id)
 	if err != nil {

@@ -1,7 +1,6 @@
 package repository_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/g91TeJl/Shop/pkg/model"
@@ -15,7 +14,6 @@ func TestCreateCart(t *testing.T) {
 	repo := repository.NewRepository(db)
 	u := *model.TestUser(t)
 	id, err := repo.CreateUser(u)
-	fmt.Println("succes")
 	_, err = repo.CreateCart(id)
 	assert.NoError(t, err)
 }

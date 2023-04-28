@@ -81,7 +81,7 @@ func TestHandlerUserLogin(t *testing.T) {
 	}{
 		{
 			name: "authenticated",
-			cookieValue: map[string]interface{}{ //заместо interface сделать func и сгенить токен
+			cookieValue: map[string]interface{}{
 				"user_id": id,
 			},
 			expectedCode: http.StatusOK,
