@@ -18,7 +18,7 @@ type Products interface {
 	GetProductId(product model.Products) (int, error)
 	AddProductPhoto(product_photo model.ProductPhoto) error
 	GetProductById(id int) error
-	UpdateProductInput(id int, input model.Products) error
+	UpdateProductInput(id int, input model.UpdateProduct) error
 }
 
 type Cart interface {

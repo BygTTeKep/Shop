@@ -58,21 +58,21 @@ func (r *Product) GetProductById(id int) error {
 	return err
 }
 
-func (r *Product) UpdateProductInput(id int, input model.Products) error {
+func (r *Product) UpdateProductInput(id int, input model.UpdateProduct) error {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
 	argId := 1
-	if input.Name != "" {
+	if input.Name != nil {
 		setValues = append(setValues, fmt.Sprintf("name=$%d", argId))
 		args = append(args, input.Name)
 		argId++
 	}
-	if input.Description != "" {
+	if input.Description != nil {
 		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
 		args = append(args, input.Description)
 		argId++
 	}
-	if input.Price >= 1 {
+	if input.Price != nil {
 		setValues = append(setValues, fmt.Sprintf("price=$%d", argId))
 		args = append(args, input.Price)
 		argId++

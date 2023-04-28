@@ -71,3 +71,30 @@ func (h *Handler) AddProductPhoto() http.HandlerFunc {
 		}
 	}
 }
+
+func (h *Handler) updateProduct() http.HandlerFunc {
+	var product model.UpdateProduct
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		vars := mux.Vars(r)
+		id, err := strconv.Atoi(vars["id"])
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		err = product.Validate()
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		err = h.service.UpdateProductInput(id, product)
+		if err != nil {
+			newErrorResponse(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}
+}

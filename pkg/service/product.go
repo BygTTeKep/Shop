@@ -31,6 +31,6 @@ func (s *Product) GetProductById(id int) error {
 	return s.repo.GetProductById(id)
 }
 
-func (s *Product) UpdateProductInput(id int, input model.Products) error {
+func (s *Product) UpdateProductInput(id int, input model.UpdateProduct) error {
 	return s.repo.UpdateProductInput(id, input)
 }

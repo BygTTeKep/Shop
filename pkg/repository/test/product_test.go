@@ -50,10 +50,9 @@ func TestProductUpdate(t *testing.T) {
 	id, err := repo.CreateProduct(*product)
 	assert.NoError(t, err)
 	assert.NotNil(t, id)
-	productUpdate := model.Products{
-		Name:  "test",
-		Price: -2,
-	}
+	name := "test"
+	productUpdate := model.UpdateProduct{}
+	productUpdate.Name = &name
 	err = repo.UpdateProductInput(id, productUpdate)
 	assert.NoError(t, err)
 }

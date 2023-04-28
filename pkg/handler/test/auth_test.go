@@ -132,7 +132,7 @@ func TestUserDelete(t *testing.T) {
 	for _, tc := range testCase {
 		t.Run(tc.name, func(t *testing.T) {
 			rec := httptest.NewRecorder()
-			req, _ := http.NewRequest(http.MethodDelete, fmt.Sprintf("/user/%d/", tc.payload), nil)
+			req, _ := http.NewRequest(http.MethodDelete, fmt.Sprintf("/user/%d/delete/", tc.payload), nil)
 			handlers.InitRoutes().ServeHTTP(rec, req)
 			assert.Equal(t, tc.expectedCode, rec.Code)
 		})
