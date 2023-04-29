@@ -24,6 +24,8 @@ type Products interface {
 type Cart interface {
 	CreateCart(idU int) (int, error)
 	GetCart(id int) (int, error)
+	AddProductToCart(id int, idProduct int) (int, error)
+	GetAllProductFromCartProducts(cart_id int) ([]model.Products, error)
 }
 
 type Service struct {

@@ -98,3 +98,34 @@ func (h *Handler) updateProduct() http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 	}
 }
+
+func (h *Handler) getProduct() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var product []model.Products
+		vars := mux.Vars(r)
+		id, err := strconv.Atoi(vars["id"])
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		idCart, err := h.service.GetCart(id)
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		getProduct, err := h.service.GetAllProductFromCartProducts(idCart)
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		product = append(product, getProduct...)
+		// template := template.Template{}
+		// for i := 0; i < len(product); i++ {
+		// 	template.ExecuteTemplate(w, r.URL.Path, product[i])
+		// }
+		for _, product := range product {
+			w.Write([]byte(product.Name))
+		}
+		w.WriteHeader(http.StatusOK)
+	}
+}

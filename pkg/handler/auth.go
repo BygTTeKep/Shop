@@ -65,8 +65,35 @@ func (h *Handler) deleteUser() http.HandlerFunc {
 		id, err := strconv.Atoi(vars["id"])
 		if err != nil {
 			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
 		}
 		err = h.service.Authorization.DeleteUser(id)
+		if err != nil {
+			newErrorResponse(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}
+}
+
+func (h *Handler) updateUser() http.HandlerFunc {
+	var req model.User
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		vars := mux.Vars(r)
+		id, err := strconv.Atoi(vars["id"])
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err := req.Validate(); err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		err = h.service.Authorization.UpdateUser(id, req)
 		if err != nil {
 			newErrorResponse(w, http.StatusInternalServerError, err.Error())
 			return

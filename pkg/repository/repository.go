@@ -25,6 +25,7 @@ type Cart interface {
 	CreateCart(idU int) (int, error)
 	AddProductToCart(id int, idProduct int) (int, error)
 	GetCart(id int) (int, error)
+	GetAllProductFromCartProducts(cart_id int) ([]model.Products, error)
 }
 
 type Repository struct {

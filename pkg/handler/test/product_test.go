@@ -38,7 +38,7 @@ func TestHandlerProductCreate(t *testing.T) {
 			expectedCode: http.StatusCreated,
 		},
 		{
-			name:         "Bad",
+			name:         "empty body",
 			payload:      "",
 			expectedCode: http.StatusBadRequest,
 		},
@@ -80,11 +80,6 @@ func TestHandlerDeleteProduct(t *testing.T) {
 		{
 			name:         "not Ok",
 			payload:      123,
-			expectedCode: http.StatusNotFound,
-		},
-		{
-			name:         "not Ok",
-			payload:      12,
 			expectedCode: http.StatusNotFound,
 		},
 	}

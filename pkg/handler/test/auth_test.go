@@ -138,3 +138,78 @@ func TestUserDelete(t *testing.T) {
 		})
 	}
 }
+
+func TestHandlerUserUpdate(t *testing.T) {
+	db, teardown := TestingDB(t)
+	defer teardown("users")
+	repository := repository.NewRepository(db)
+	service := service.NewService(repository)
+	handlers := handler.Newhandler(service)
+	srv := new(Shop.Server)
+	srv.Run(":8080", handlers.InitRoutes())
+	u := model.TestUser(t)
+	id, _ := service.CreateUser(*u)
+	username, firstname, lastname, surname, email, password := "user", "firstname", "lastname", "surname", "example2@example.com", "XXXXXXXXXXXXXX"
+	updateUser := model.UpdateUser{
+		UserName:  &username,
+		FirstName: &firstname,
+		LastName:  &lastname,
+		Surname:   &surname,
+		Email:     &email,
+		Password:  &password,
+	}
+	testCase := []struct {
+		name        string
+		payload     interface{}
+		exeptedCode int
+	}{
+		{
+			name:        "OK",
+			payload:     updateUser,
+			exeptedCode: http.StatusOK,
+		},
+		{
+			name:        "BadRequest",
+			payload:     model.UpdateUser{},
+			exeptedCode: http.StatusBadRequest,
+		},
+	}
+	for _, tc := range testCase {
+		t.Run(tc.name, func(t *testing.T) {
+			rec := httptest.NewRecorder()
+			b := &bytes.Buffer{}
+			json.NewEncoder(b).Encode(tc.payload)
+			req, _ := http.NewRequest(http.MethodPut, fmt.Sprintf("/user/%d/update/", id), b)
+			handlers.InitRoutes().ServeHTTP(rec, req)
+			assert.Equal(t, tc.exeptedCode, rec.Code)
+		})
+	}
+}
+
+func TestHandlerGetAllProducts(t *testing.T) {
+	db, teardown := TestingDB(t)
+	defer teardown("products", "users", "cart", "cart_product")
+	repository := repository.NewRepository(db)
+	service := service.NewService(repository)
+	handlers := handler.Newhandler(service)
+	srv := new(Shop.Server)
+	srv.Run(":8080", handlers.InitRoutes())
+	defer srv.Shutdown(context.Background())
+	product := model.TestProduct(t)
+	u := model.TestUser(t)
+	idU, _ := service.CreateUser(*u)
+	u.Id = idU
+	id, _ := service.CreateProduct(*product)
+	product.Id = id
+	service.CreateCart(idU)
+	service.AddProductToCart(idU, id)
+	// product.Name = "asw"
+	// id1, _ := service.CreateProduct(*product)
+	// product.Id = id1
+	// service.AddProductToCart(idU, id1)
+	rec := httptest.NewRecorder()
+	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/user/%d/cart/", idU), nil)
+	handlers.InitRoutes().ServeHTTP(rec, req)
+	t.Log(rec.Body)
+	assert.Equal(t, http.StatusOK, rec.Code)
+}
