@@ -101,3 +101,30 @@ func (h *Handler) updateUser() http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 	}
 }
+
+func (h *Handler) addProduct() http.HandlerFunc {
+	//var idProduct int
+	return func(w http.ResponseWriter, r *http.Request) {
+		// if err := json.NewDecoder(r.Body).Decode(&idProduct); err != nil {
+		// 	newErrorResponse(w, http.StatusBadRequest, err.Error())
+		// 	return
+		// }
+		vars := mux.Vars(r)
+		id, err := strconv.Atoi(vars["id"])
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		idProduct, err := strconv.Atoi(vars["idProduct"])
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		_, err = h.service.Cart.AddProductToCart(id, idProduct)
+		if err != nil {
+			newErrorResponse(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}
+}

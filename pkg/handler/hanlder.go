@@ -27,6 +27,7 @@ func (h *Handler) InitRoutes() *mux.Router {
 	u.HandleFunc("/{id:[0-9]+}/delete/", h.deleteUser()).Methods("DELETE")
 	u.HandleFunc("/{id:[0-9]+}/update/", h.updateUser()).Methods("PUT")
 	u.HandleFunc("/{id:[0-9]+}/cart/", h.getProduct()).Methods("GET")
+	u.HandleFunc("/{id:[0-9]+}/addProduct/{idProduct:[0-9]+}", h.addProduct()).Methods("POST")
 	//router.HandleFunc("/deleteUser/{id}", h.deleteUser()).Methods("DELETE")
 	// router.HandleFunc("/createProduct", h.createProduct()).Methods("POST")
 	// router.HandleFunc("/deleteProduct/{id}", h.deleteProduct()).Methods("DELETE")

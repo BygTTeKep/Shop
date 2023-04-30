@@ -55,12 +55,12 @@ func (c *CartUser) AddProductToCart(id int, idProduct int) (int, error) {
 		get cart_id, product_id
 	*/
 }
-func (c *CartUser) GetAllProductFromCartProducts(cart_id int) ([]model.Products, error) { //119
+func (c *CartUser) GetAllProductFromCartProducts(cart_id int) ([]model.Products, error) {
 	var Values int64
 	setValues := make([]int64, 0)
 	//var allProduct []model.Products
 	//var Values2 string
-	query := fmt.Sprintf("SELECT product_id FROM %s WHERE cart_id=$1", cartProductTable) //Запрос неверный555
+	query := fmt.Sprintf("SELECT product_id FROM %s WHERE cart_id=$1", cartProductTable)
 	row, err := c.db.Query(query, cart_id)
 	if err != nil {
 		return nil, err

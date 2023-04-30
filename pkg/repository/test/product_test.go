@@ -23,10 +23,12 @@ func TestProductGetId(t *testing.T) {
 	defer teardown("products")
 	product := model.TestProduct(t)
 	repo := repository.NewRepository(db)
-	_, err := repo.CreateProduct(*product)
+	idP, err := repo.CreateProduct(*product)
+	product.Id = idP
 	assert.NoError(t, err)
 	id, err := repo.GetProductId(*product)
 	assert.NoError(t, err)
+	assert.Equal(t, product.Id, id)
 	assert.NotNil(t, id)
 }
 

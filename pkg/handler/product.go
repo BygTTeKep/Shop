@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"text/template"
 
 	"github.com/g91TeJl/Shop/pkg/model"
 	"github.com/gorilla/mux"
@@ -16,7 +17,11 @@ func (h *Handler) createProduct() http.HandlerFunc {
 			newErrorResponse(w, http.StatusBadRequest, err.Error())
 			return
 		}
-		req.Validate()
+		err := req.Validate()
+		if err != nil {
+			newErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
 		if _, err := h.service.CreateProduct(req); err != nil {
 			newErrorResponse(w, http.StatusInternalServerError, err.Error())
 			return
@@ -101,6 +106,7 @@ func (h *Handler) updateProduct() http.HandlerFunc {
 
 func (h *Handler) getProduct() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		template.ParseFiles("../product.html")
 		var product []model.Products
 		vars := mux.Vars(r)
 		id, err := strconv.Atoi(vars["id"])
@@ -119,13 +125,9 @@ func (h *Handler) getProduct() http.HandlerFunc {
 			return
 		}
 		product = append(product, getProduct...)
-		// template := template.Template{}
-		// for i := 0; i < len(product); i++ {
-		// 	template.ExecuteTemplate(w, r.URL.Path, product[i])
+		// for _, product := range product {
+		// 	json.NewEncoder(w).Encode(product)
 		// }
-		for _, product := range product {
-			w.Write([]byte(product.Name))
-		}
 		w.WriteHeader(http.StatusOK)
 	}
 }
