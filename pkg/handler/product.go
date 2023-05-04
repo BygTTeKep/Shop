@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"text/template"
 
 	"github.com/g91TeJl/Shop/pkg/model"
 	"github.com/gorilla/mux"
@@ -106,7 +105,7 @@ func (h *Handler) updateProduct() http.HandlerFunc {
 
 func (h *Handler) getProduct() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		template.ParseFiles("../product.html")
+		//tmpl := template.Must(template.ParseFiles("pkg/handler/product.html"))
 		var product []model.Products
 		vars := mux.Vars(r)
 		id, err := strconv.Atoi(vars["id"])
@@ -126,8 +125,10 @@ func (h *Handler) getProduct() http.HandlerFunc {
 		}
 		product = append(product, getProduct...)
 		// for _, product := range product {
-		// 	json.NewEncoder(w).Encode(product)
+		// 	data, _ := json.Marshal(product.Name)
+		// 	tmpl.Execute(w, bytes.NewReader(data))
 		// }
+		//tmpl.Execute(w, product)
 		w.WriteHeader(http.StatusOK)
 	}
 }
